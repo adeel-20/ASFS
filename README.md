@@ -136,4 +136,6 @@ services:
       - "9000:9000"
 ```
 # Step 3: Build docker compose.yml
+```
 docker-compose up -d
+```
