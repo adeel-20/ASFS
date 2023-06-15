@@ -120,6 +120,7 @@ EXPOSE 9000
 
 # Start the Django development server
 CMD python manage.py runserver 0.0.0.0:9000
+```
 
 # Step 2: Create a Docker Compose Configuration
 ## Create a file named docker-compose.yml in your project directory.
