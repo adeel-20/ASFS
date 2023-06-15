@@ -79,3 +79,60 @@ Install Jenkins: Install Jenkins on a server or machine where your code reposito
 5. Configure post-build actions: After the build steps, you can configure post-build actions to handle the output of the build. For example, you might want to archive the generated models, generate reports, or trigger notifications.
 6. Schedule and trigger builds: Jenkins provides various options for triggering builds, such as scheduling periodic builds or triggering builds when changes are pushed to the Git repository. Choose the appropriate trigger for your project.
 7. Monitor and review builds: Jenkins provides a dashboard where you can monitor the status of your builds, view build logs, and review build
+
+## Containerization with Docker
+
+Before proceeding, ensure that the following prerequisites are met:
+
+- Docker is installed on your machine. You can download and install Docker from the official website: [https://www.docker.com/get-started](https://www.docker.com/get-started).
+
+# Step 1: Create a Dockerfile
+
+1. Create a file named `Dockerfile` in your project directory.
+2. Open the `Dockerfile` file and add the following content:
+
+```Dockerfile
+# Use an official Python runtime as the base image
+FROM python:3.9
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Install system dependencies
+RUN apt-get update \
+    && apt-get -y install libpq-dev
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file to the container
+COPY requirements.txt /app/
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application code to the container
+COPY . /app/
+
+# Expose the application's port
+EXPOSE 9000
+
+# Start the Django development server
+CMD python manage.py runserver 0.0.0.0:9000
+
+# Step 2: Create a Docker Compose Configuration
+## Create a file named docker-compose.yml in your project directory.
+## Open the docker-compose.yml file and add the following content:
+```docker-compose.yml
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+```
+# Step 3: Build docker compose.yml
+docker-compose up -d
